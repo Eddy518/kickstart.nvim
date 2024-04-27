@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -257,6 +257,18 @@ require('lazy').setup({
       },
     },
   },
+  { --Adds fugitive plugin to manage git
+    'tpope/vim-fugitive',
+    keys = {
+      { '<leader>g', '', mode = { 'n' }, desc = '[G]it' },
+      { '<leader>gd', '<cmd>Gdiffsplit<cr>', mode = { 'n' }, desc = '[G]it [D]iff' },
+      { '<leader>gg', '<cmd>G<cr>', mode = { 'n' }, desc = '[G]it' },
+      { '<leader>gh', '<cmd>Gitsigns preview_hunk<cr>', mode = { 'n' }, desc = '[G]it [H]unk preview' },
+      { '<leader>gl', '<cmd>G log<cr>', mode = { 'n' }, desc = '[G]it [L]og' },
+      { '<leader>gs', '<cmd>G status<cr>', mode = { 'n' }, desc = '[G]it [S]tatus' },
+      { '<leader>gs', '<cmd>G status<cr>', mode = { 'n' }, desc = '[G]it [S]tatus' },
+    },
+  },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -353,11 +365,12 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          file_ignore_patterns = { '^./.git/', '^node_modules/', '^vendor/' },
+          --   mappings = {
+          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          --   },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -566,7 +579,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -657,7 +670,7 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        javascript = { { 'prettierd', 'prettier' } },
       },
     },
   },
@@ -729,7 +742,8 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          -- ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<C-Enter>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -876,9 +890,11 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.devdocs',
+  require 'kickstart.plugins.prettier',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
